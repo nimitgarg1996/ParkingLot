@@ -13,13 +13,12 @@ public class CheckoutService {
         this.parkingService = parkingService;
     }
 
-    public TicketEntity initiateCheckout(TicketEntity ticket) {
+    public void initiateCheckout(TicketEntity ticket) {
         long currentTimestamp = System.currentTimeMillis();
         ticket.setCheckOutTime(currentTimestamp);
         long duration = (currentTimestamp - ticket.getCheckInTime()) / (1000 * 60 * 60);
         ticket.setTariff(getTariff(duration));
         parkingService.releaseParkingSpot(ticket.getParkingSpot());
-        return ticket;
     }
 
     private double getTariff(long duration) {
